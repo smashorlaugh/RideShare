@@ -4,8 +4,8 @@ import { Text, useTheme, Card, Button, Chip, IconButton, ActivityIndicator } fro
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { privateRequestsAPI } from '../../../src/api/client';
-import EmptyState from '../../../src/components/EmptyState';
+import { privateRequestsAPI } from '../../src/api/client';
+import EmptyState from '../../src/components/EmptyState';
 
 export default function MyRequestsScreen() {
   const theme = useTheme();

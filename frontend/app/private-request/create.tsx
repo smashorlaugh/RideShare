@@ -5,8 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { format } from 'date-fns';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { privateRequestsAPI } from '../../../src/api/client';
-import LocationPicker from '../../../src/components/LocationPicker';
+import { privateRequestsAPI } from '../../src/api/client';
+import LocationPicker from '../../src/components/LocationPicker';
 
 export default function CreatePrivateRequestScreen() {
   const theme = useTheme();
