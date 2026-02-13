@@ -10,7 +10,7 @@ import EmptyState from '../../src/components/EmptyState';
 export default function NearbyRequestsScreen() {
   const theme = useTheme();
   const router = useRouter();
-  
+
   const [requests, setRequests] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -44,7 +44,7 @@ export default function NearbyRequestsScreen() {
         request_id: requestId,
         message: 'I can offer this ride!',
       });
-      
+
       Alert.alert(
         'Success',
         'You have responded to this request. A ride has been created.',
@@ -150,7 +150,7 @@ export default function NearbyRequestsScreen() {
         }
         ListEmptyComponent={
           <EmptyState
-            icon="hand-wave-outline"
+            icon="hand-right-outline"
             title="No requests nearby"
             description="When passengers create ride requests, they'll appear here"
           />

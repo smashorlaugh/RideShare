@@ -11,7 +11,7 @@ import EmptyState from '../../src/components/EmptyState';
 export default function TripsScreen() {
   const theme = useTheme();
   const router = useRouter();
-  
+
   const [view, setView] = useState('my-rides');
   const [myRides, setMyRides] = useState<any[]>([]);
   const [myBookings, setMyBookings] = useState<any[]>([]);
@@ -26,7 +26,7 @@ export default function TripsScreen() {
         bookingsAPI.getMyBookings(),
         bookingsAPI.getRequests(),
       ]);
-      
+
       setMyRides(ridesRes.data);
       setMyBookings(bookingsRes.data);
       setBookingRequests(requestsRes.data);
@@ -111,7 +111,7 @@ export default function TripsScreen() {
             }
           />
         );
-        
+
       case 'my-bookings':
         return (
           <FlatList
@@ -140,7 +140,7 @@ export default function TripsScreen() {
             }
           />
         );
-        
+
       case 'requests':
         return (
           <FlatList
@@ -161,14 +161,14 @@ export default function TripsScreen() {
             }
             ListEmptyComponent={
               <EmptyState
-                icon="inbox-outline"
+                icon="archive-outline"
                 title="No booking requests"
                 description="When passengers book your rides, they'll appear here"
               />
             }
           />
         );
-        
+
       default:
         return null;
     }

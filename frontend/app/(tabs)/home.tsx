@@ -80,6 +80,7 @@ export default function HomeScreen() {
           onFocus={() => router.push('/(tabs)/search')}
           style={styles.searchBar}
           elevation={1}
+          value=""
         />
 
         {/* Quick Actions */}

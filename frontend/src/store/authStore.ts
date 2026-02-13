@@ -14,6 +14,8 @@ interface User {
   car_number: string | null;
   rating: number;
   total_ratings: number;
+  total_rides_as_driver: number;
+  total_rides_as_passenger: number;
 }
 
 interface AuthState {
@@ -66,7 +68,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       const token = await AsyncStorage.getItem('auth_token');
       const userStr = await AsyncStorage.getItem('user');
-      
+
       if (token && userStr) {
         const user = JSON.parse(userStr);
         // Verify token is still valid

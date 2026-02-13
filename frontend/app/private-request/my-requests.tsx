@@ -10,7 +10,7 @@ import EmptyState from '../../src/components/EmptyState';
 export default function MyRequestsScreen() {
   const theme = useTheme();
   const router = useRouter();
-  
+
   const [requests, setRequests] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -75,8 +75,8 @@ export default function MyRequestsScreen() {
           <Text variant="titleMedium" style={{ fontWeight: '600', flex: 1 }}>
             {item.seats_needed} seat{item.seats_needed > 1 ? 's' : ''} needed
           </Text>
-          <Chip 
-            style={{ backgroundColor: getStatusColor(item.status) }} 
+          <Chip
+            style={{ backgroundColor: getStatusColor(item.status) }}
             textStyle={{ color: '#FFF' }}
             compact
           >
@@ -158,7 +158,7 @@ export default function MyRequestsScreen() {
         }
         ListEmptyComponent={
           <EmptyState
-            icon="hand-wave-outline"
+            icon="hand-right-outline"
             title="No requests yet"
             description="Create a private request when you can't find a suitable ride"
             actionLabel="Create Request"
