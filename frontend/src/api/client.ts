@@ -2,7 +2,19 @@ import axios from 'axios';
 import Constants from 'expo-constants';
 import { useAuthStore } from '../store/authStore';
 
-const API_URL = Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL || process.env.EXPO_PUBLIC_BACKEND_URL || '';
+const getBackendUrl = () => {
+  const configUrl = Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL;
+  const envUrl = process.env.EXPO_PUBLIC_BACKEND_URL;
+
+  if (configUrl) return configUrl;
+  if (envUrl) return envUrl;
+
+  // Default fallback for development
+  return 'http://localhost:8001';
+};
+
+const API_URL = getBackendUrl();
+// console.log('[DEBUG] Calling API at:', API_URL);
 
 const apiClient = axios.create({
   baseURL: API_URL,
@@ -64,7 +76,7 @@ export const bookingsAPI = {
   create: (data: any) => apiClient.post('/api/bookings', data),
   getMyBookings: () => apiClient.get('/api/bookings'),
   getRequests: () => apiClient.get('/api/bookings/requests'),
-  updateStatus: (id: string, status: string) => 
+  updateStatus: (id: string, status: string) =>
     apiClient.put(`/api/bookings/${id}/status`, { status }),
 };
 

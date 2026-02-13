@@ -25,14 +25,15 @@ export default function LoginScreen() {
     try {
       const response = await authAPI.sendOTP(phone);
       if (response.data.success) {
-        // Pass debug_otp for MVP testing (remove in production)
         router.push({
           pathname: '/(auth)/verify',
-          params: { phone, debugOtp: response.data.debug_otp },
+          params: { phone },
         });
       }
     } catch (err: any) {
-      setError(err.response?.data?.detail || 'Failed to send OTP');
+      console.error('OTP Error:', err);
+      const message = err.response?.data?.detail || err.message || 'Failed to send OTP';
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -94,6 +95,12 @@ export default function LoginScreen() {
             <Text variant="bodySmall" style={[styles.terms, { color: theme.colors.onSurfaceVariant }]}>
               By continuing, you agree to our Terms of Service and Privacy Policy
             </Text>
+
+            <View style={styles.footer}>
+              <Text variant="labelMedium" style={[styles.madeInIndia, { color: theme.colors.onSurfaceVariant }]}>
+                Made in India 🇮🇳
+              </Text>
+            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -159,5 +166,16 @@ const styles = StyleSheet.create({
   terms: {
     textAlign: 'center',
     marginTop: 24,
+  },
+  footer: {
+    marginTop: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  madeInIndia: {
+    opacity: 0.8,
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+    fontWeight: '700',
   },
 });

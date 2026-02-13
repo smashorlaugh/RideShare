@@ -42,7 +42,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/splash-image.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#00AFF5"
@@ -59,13 +59,16 @@
         {
           "photosPermission": "Upload profile photos"
         }
-      ]
+      ],
+      "@react-native-community/datetimepicker",
+      "expo-font",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
     },
     "extra": {
-      "EXPO_PUBLIC_BACKEND_URL": "https://tripmate-92.preview.emergentagent.com"
+      "EXPO_PUBLIC_BACKEND_URL": "https://your-backend-url.railway.app"
     }
   }
 }

@@ -9,7 +9,7 @@ import { useAuthStore } from '../../src/store/authStore';
 export default function VerifyScreen() {
   const theme = useTheme();
   const router = useRouter();
-  const { phone, debugOtp } = useLocalSearchParams<{ phone: string; debugOtp: string }>();
+  const { phone } = useLocalSearchParams<{ phone: string }>();
   const { login } = useAuthStore();
 
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
@@ -104,21 +104,15 @@ export default function VerifyScreen() {
             Enter the 6-digit code sent to {phone}
           </Text>
 
-          {/* MVP: Show debug OTP */}
-          {debugOtp && (
-            <View style={[styles.debugBox, { backgroundColor: theme.colors.primaryContainer }]}>
-              <Text variant="bodySmall">Test OTP: {debugOtp}</Text>
-            </View>
-          )}
 
           <View style={styles.otpContainer}>
             {otp.map((digit, index) => (
               <RNTextInput
                 key={index}
-                ref={(ref) => (inputRefs.current[index] = ref)}
+                ref={(ref) => { inputRefs.current[index] = ref; }}
                 style={[
                   styles.otpInput,
-                  { 
+                  {
                     borderColor: digit ? theme.colors.primary : theme.colors.outline,
                     color: theme.colors.onSurface,
                     backgroundColor: theme.colors.surface,

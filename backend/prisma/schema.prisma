@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                        String           @id @default(uuid())
+  phone                     String           @unique
+  name                      String?
+  photo                     String?          // Base64 or URL
+  carModel                  String?
+  carNumber                 String?
+  rating                    Float            @default(0.0)
+  totalRatings              Int              @default(0)
+  totalRidesAsDriver        Int              @default(0)
+  totalRidesAsPassenger     Int              @default(0)
+  createdAt                 DateTime         @default(now())
+  updatedAt                 DateTime         @updatedAt
+
+  rides                     Ride[]           @relation("DriverRides")
+  bookings                  Booking[]        @relation("PassengerBookings")
+  privateRequests           PrivateRequest[] @relation("PassengerRequests")
+  sentMessages              ChatMessage[]    @relation("SentMessages")
+  reviewsReceived           Review[]         @relation("ReceivedReviews")
+  reviewsGiven              Review[]         @relation("GivenReviews")
+}
+
+model Otp {
+  id        String   @id @default(uuid())
+  phone     String   @unique
+  otp       String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Ride {
+  id              String   @id @default(uuid())
+  driverId        String
+  pickupLocation  String
+  pickupLat       Float
+  pickupLng       Float
+  dropLocation    String
+  dropLat         Float
+  dropLng         Float
+  date            DateTime
+  time            String
+  availableSeats  Int
+  pricePerSeat    Float
+  carModel        String?
+  carNumber       String?
+  notes           String?
+  status          String   @default("active") // active, completed, cancelled
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  driver          User     @relation("DriverRides", fields: [driverId], references: [id])
+  bookings        Booking[]
+}
+
+model Booking {
+  id            String         @id @default(uuid())
+  rideId        String
+  passengerId   String
+  seats         Int
+  message       String?
+  status        String         @default("pending") // pending, accepted, rejected, cancelled, completed
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  ride          Ride           @relation(fields: [rideId], references: [id])
+  passenger     User           @relation("PassengerBookings", fields: [passengerId], references: [id])
+  chatMessages  ChatMessage[]
+}
+
+model PrivateRequest {
+  id              String        @id @default(uuid())
+  passengerId     String
+  fromLocation    String
+  fromLat         Float
+  fromLng         Float
+  toLocation      String
+  toLat           Float
+  toLng           Float
+  preferredDate   DateTime
+  preferredTime   String
+  seatsNeeded     Int
+  message         String?
+  status          String        @default("active") // active, responded, cancelled, expired
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  passenger       User          @relation("PassengerRequests", fields: [passengerId], references: [id])
+  chatMessages    ChatMessage[]
+}
+
+model ChatMessage {
+  id              String          @id @default(uuid())
+  content         String
+  senderId        String
+  bookingId       String?
+  requestId       String?
+  read            Boolean         @default(false)
+  createdAt       DateTime        @default(now())
+
+  sender          User            @relation("SentMessages", fields: [senderId], references: [id])
+  booking         Booking?        @relation(fields: [bookingId], references: [id])
+  privateRequest  PrivateRequest? @relation(fields: [requestId], references: [id])
+}
+
+model Review {
+  id            String   @id @default(uuid())
+  rideId        String
+  reviewerId    String
+  revieweeId    String
+  rating        Int
+  comment       String?
+  createdAt     DateTime @default(now())
+
+  reviewer      User     @relation("GivenReviews", fields: [reviewerId], references: [id])
+  reviewee      User     @relation("ReceivedReviews", fields: [revieweeId], references: [id])
+}
